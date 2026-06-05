@@ -22,5 +22,54 @@ Para los estudiantes, la gestión eficiente del tiempo es fundamental; la pérdi
 
 ## 3. Base de Datos
 **Gestor:** Microsoft SQL Server
-* En este repositorio se encuentra el script con el código DDL y DML para la creación de la base `LaboratorioDB`.
-* [Aquí pegaremos las tablas del Diccionario de Datos].
+(sistemadestionlab.sql)
+  **Tabla: Usuarios**
+| Campo | Tipo de Dato | Llave / Regla | Descripción |
+| :--- | :--- | :--- | :--- |
+| **IdUsuario** | INT | **PK** (Identity) | Identificador único del usuario. |
+| Nombre | VARCHAR(100) | NOT NULL | Nombre completo del usuario. |
+| Correo | VARCHAR(100) | UNIQUE | Correo electrónico de acceso. |
+| Password | VARCHAR(100) | NULL | Contraseña del sistema. |
+| Rol | VARCHAR(20) | NULL | Administrador o Estudiante. |
+
+**Tabla: Componentes**
+| Campo | Tipo de Dato | Llave / Regla | Descripción |
+| :--- | :--- | :--- | :--- |
+| **IdComponente** | INT | **PK** (Identity) | Identificador del componente. |
+| Nombre | VARCHAR(100) | NOT NULL | Nombre del equipo. |
+| Categoria | VARCHAR(50) | NULL | Clasificación del material. |
+| CantidadDisponible| INT | NULL | Unidades en existencia. |
+| Estado | VARCHAR(20) | NULL | Condición física o disponibilidad. |
+
+**Tabla: Prestamos**
+| Campo | Tipo de Dato | Llave / Regla | Descripción |
+| :--- | :--- | :--- | :--- |
+| **IdPrestamo** | INT | **PK** (Identity) | Folio único del préstamo. |
+| IdUsuario | INT | **FK** | Conecta con Usuarios(IdUsuario). |
+| FechaPrestamo | DATE | NULL | Día de entrega del material. |
+| FechaLimite | DATE | NULL | Día máximo para regresar. |
+| Estado | VARCHAR(20) | NULL | Estatus actual del ticket. |
+
+**Tabla: DetallePrestamo**
+| Campo | Tipo de Dato | Llave / Regla | Descripción |
+| :--- | :--- | :--- | :--- |
+| **IdDetalle** | INT | **PK** (Identity) | Identificador de la partida. |
+| IdPrestamo | INT | **FK** | Conecta con Prestamos. |
+| IdComponente | INT | **FK** | Conecta con Componentes. |
+| Cantidad | INT | NULL | Número de piezas prestadas. |
+
+**Tabla: Devoluciones**
+| Campo | Tipo de Dato | Llave / Regla | Descripción |
+| :--- | :--- | :--- | :--- |
+| **IdDevolucion** | INT | **PK** (Identity) | Folio de la devolución. |
+| IdPrestamo | INT | **FK** | Conecta con Prestamos. |
+| FechaDevolucion | DATE | NULL | Día de entrega física. |
+| Observaciones | VARCHAR(200)| NULL | Notas adicionales de entrega. |
+
+**Tabla: Mantenimientos**
+| Campo | Tipo de Dato | Llave / Regla | Descripción |
+| :--- | :--- | :--- | :--- |
+| **IdMantenimiento**| INT | **PK** (Identity) | Folio del servicio técnico. |
+| IdComponente | INT | **FK** | Conecta con Componentes. |
+| Fecha | DATE | NULL | Día del diagnóstico. |
+| Descripcion | VARCHAR(200)| NULL | Detalle de la reparación. |
