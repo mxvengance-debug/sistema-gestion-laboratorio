@@ -21,8 +21,10 @@ Para los estudiantes, la gestión eficiente del tiempo es fundamental; la pérdi
 
 
 ## 3. Base de Datos
+
 **Gestor:** Microsoft SQL Server
 (sistemadestionlab.sql)
+  
   **Tabla: Usuarios**
 | Campo | Tipo de Dato | Llave / Regla | Descripción |
 | :--- | :--- | :--- | :--- |
