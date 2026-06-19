@@ -1,4 +1,4 @@
---CREAR BASE DE DATOS
+-- CREAR BASE DE DATOS
 
 IF DB_ID('LaboratorioDB') IS NULL
 BEGIN
@@ -12,15 +12,17 @@ GO
 
 -- TABLA USUARIOS
 
-
 IF OBJECT_ID('Usuarios', 'U') IS NULL
 BEGIN
     CREATE TABLE Usuarios(
         IdUsuario INT IDENTITY(1,1) PRIMARY KEY,
         Nombre VARCHAR(100) NOT NULL,
         Correo VARCHAR(100) UNIQUE,
-        Password VARCHAR(100),
-        Rol VARCHAR(20)
+        Password VARCHAR(100) NOT NULL,
+        Rol VARCHAR(20) NOT NULL,
+        
+        -- Campo de Auditoría
+        FechaCreacion DATETIME DEFAULT GETDATE()
     );
 END
 GO
@@ -28,15 +30,21 @@ GO
 
 -- TABLA COMPONENTES
 
-
 IF OBJECT_ID('Componentes', 'U') IS NULL
 BEGIN
     CREATE TABLE Componentes(
         IdComponente INT IDENTITY(1,1) PRIMARY KEY,
         Nombre VARCHAR(100) NOT NULL,
         Categoria VARCHAR(50),
-        CantidadDisponible INT,
-        Estado VARCHAR(20)
+        CantidadDisponible INT NOT NULL,
+        Estado VARCHAR(20),
+        
+        -- Campos de Auditoría
+        FechaCreacion DATETIME DEFAULT GETDATE(),
+        UsuarioModificador INT,
+        FechaModificacion DATETIME,
+
+        FOREIGN KEY (UsuarioModificador) REFERENCES Usuarios(IdUsuario)
     );
 END
 GO
@@ -44,18 +52,21 @@ GO
 
 -- TABLA PRESTAMOS
 
-
 IF OBJECT_ID('Prestamos', 'U') IS NULL
 BEGIN
     CREATE TABLE Prestamos(
         IdPrestamo INT IDENTITY(1,1) PRIMARY KEY,
         IdUsuario INT,
-        FechaPrestamo DATE,
+        FechaPrestamo DATE NOT NULL,
         FechaLimite DATE,
-        Estado VARCHAR(20),
+        Estado VARCHAR(20) NOT NULL,
+        
+        -- Campos de Auditoría
+        FechaCreacion DATETIME DEFAULT GETDATE(),
+        UsuarioCreador INT,
 
-        FOREIGN KEY (IdUsuario)
-        REFERENCES Usuarios(IdUsuario)
+        FOREIGN KEY (IdUsuario) REFERENCES Usuarios(IdUsuario),
+        FOREIGN KEY (UsuarioCreador) REFERENCES Usuarios(IdUsuario)
     );
 END
 GO
@@ -63,20 +74,16 @@ GO
 
 -- TABLA DETALLEPRESTAMO
 
-
 IF OBJECT_ID('DetallePrestamo', 'U') IS NULL
 BEGIN
     CREATE TABLE DetallePrestamo(
         IdDetalle INT IDENTITY(1,1) PRIMARY KEY,
         IdPrestamo INT,
         IdComponente INT,
-        Cantidad INT,
+        Cantidad INT NOT NULL,
 
-        FOREIGN KEY (IdPrestamo)
-        REFERENCES Prestamos(IdPrestamo),
-
-        FOREIGN KEY (IdComponente)
-        REFERENCES Componentes(IdComponente)
+        FOREIGN KEY (IdPrestamo) REFERENCES Prestamos(IdPrestamo),
+        FOREIGN KEY (IdComponente) REFERENCES Componentes(IdComponente)
     );
 END
 GO
@@ -84,17 +91,20 @@ GO
 
 -- TABLA DEVOLUCIONES
 
-
 IF OBJECT_ID('Devoluciones', 'U') IS NULL
 BEGIN
     CREATE TABLE Devoluciones(
         IdDevolucion INT IDENTITY(1,1) PRIMARY KEY,
         IdPrestamo INT,
-        FechaDevolucion DATE,
+        FechaDevolucion DATE NOT NULL,
         Observaciones VARCHAR(200),
+        
+        -- Campos de Auditoría
+        FechaCreacion DATETIME DEFAULT GETDATE(),
+        UsuarioReceptor INT,
 
-        FOREIGN KEY (IdPrestamo)
-        REFERENCES Prestamos(IdPrestamo)
+        FOREIGN KEY (IdPrestamo) REFERENCES Prestamos(IdPrestamo),
+        FOREIGN KEY (UsuarioReceptor) REFERENCES Usuarios(IdUsuario)
     );
 END
 GO
@@ -107,69 +117,65 @@ BEGIN
     CREATE TABLE Mantenimientos(
         IdMantenimiento INT IDENTITY(1,1) PRIMARY KEY,
         IdComponente INT,
-        Fecha DATE,
-        Descripcion VARCHAR(200),
+        Fecha DATE NOT NULL,
+        Descripcion VARCHAR(200) NOT NULL,
+        
+        -- Campos de Auditoría
+        FechaCreacion DATETIME DEFAULT GETDATE(),
+        UsuarioRegistra INT,
 
-        FOREIGN KEY (IdComponente)
-        REFERENCES Componentes(IdComponente)
+        FOREIGN KEY (IdComponente) REFERENCES Componentes(IdComponente),
+        FOREIGN KEY (UsuarioRegistra) REFERENCES Usuarios(IdUsuario)
     );
 END
 GO
 
 
--- DATOS DE PRUEBA
+-- DATOS DE PRUEBA (Actualizados con correos institucionales)
 
 INSERT INTO Usuarios (Nombre, Correo, Password, Rol)
-SELECT 'Arturo','arturo@gmail.com','1234','Administrador'
+SELECT 'Arturo','arturo@alumno.ipn.mx','1234','Administrador'
 WHERE NOT EXISTS (
-    SELECT 1 FROM Usuarios
-    WHERE Correo='arturo@gmail.com'
+    SELECT 1 FROM Usuarios WHERE Correo='arturo@alumno.ipn.mx'
 );
 
 INSERT INTO Usuarios (Nombre, Correo, Password, Rol)
-SELECT 'Juan Perez','juan@gmail.com','1234','Estudiante'
+SELECT 'Juan Perez','juan@alumno.ipn.mx','1234','Estudiante'
 WHERE NOT EXISTS (
-    SELECT 1 FROM Usuarios
-    WHERE Correo='juan@gmail.com'
+    SELECT 1 FROM Usuarios WHERE Correo='juan@alumno.ipn.mx'
 );
 
 INSERT INTO Usuarios (Nombre, Correo, Password, Rol)
-SELECT 'Maria Lopez','maria@gmail.com','4567','Estudiante'
+SELECT 'Maria Lopez','maria@alumno.ipn.mx','4567','Estudiante'
 WHERE NOT EXISTS (
-    SELECT 1 FROM Usuarios
-    WHERE Correo='maria@gmail.com'
+    SELECT 1 FROM Usuarios WHERE Correo='maria@alumno.ipn.mx'
 );
 
 INSERT INTO Componentes (Nombre,Categoria,CantidadDisponible,Estado)
 SELECT 'Arduino Uno','Microcontrolador',10,'Disponible'
 WHERE NOT EXISTS (
-    SELECT 1 FROM Componentes
-    WHERE Nombre='Arduino Uno'
+    SELECT 1 FROM Componentes WHERE Nombre='Arduino Uno'
 );
 
 INSERT INTO Componentes (Nombre,Categoria,CantidadDisponible,Estado)
 SELECT 'Multimetro Digital','Medicion',5,'Disponible'
 WHERE NOT EXISTS (
-    SELECT 1 FROM Componentes
-    WHERE Nombre='Multimetro Digital'
+    SELECT 1 FROM Componentes WHERE Nombre='Multimetro Digital'
 );
 
 INSERT INTO Componentes (Nombre,Categoria,CantidadDisponible,Estado)
 SELECT 'Sensor Ultrasonico HC-SR04','Sensor',15,'Disponible'
 WHERE NOT EXISTS (
-    SELECT 1 FROM Componentes
-    WHERE Nombre='Sensor Ultrasonico HC-SR04'
+    SELECT 1 FROM Componentes WHERE Nombre='Sensor Ultrasonico HC-SR04'
 );
 
 INSERT INTO Componentes (Nombre,Categoria,CantidadDisponible,Estado)
 SELECT 'Protoboard','Accesorio',20,'Disponible'
 WHERE NOT EXISTS (
-    SELECT 1 FROM Componentes
-    WHERE Nombre='Protoboard'
+    SELECT 1 FROM Componentes WHERE Nombre='Protoboard'
 );
 
 GO
 
 SELECT * FROM Componentes;
-
 SELECT * FROM Usuarios;
