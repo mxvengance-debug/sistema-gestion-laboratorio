@@ -6,7 +6,7 @@
 * Rojas Cervantes Octavio
 * Davila Maya Azarel Jahdai
 * Trujano Rmaos Arturo
-
+  
 ---
 
 ## 1. Planteamiento del Problema
@@ -20,7 +20,6 @@ Para los estudiantes, la gestión eficiente del tiempo es fundamental; la pérdi
 
 
 
-## 3. Base de Datos
 
 ## 3. Base de Datos
 **Gestor:** Microsoft SQL Server
