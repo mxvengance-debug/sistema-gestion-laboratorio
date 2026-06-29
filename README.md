@@ -114,6 +114,7 @@ public class PrestamoModel
     public DateTime TimestampCreacion { get; set; }
     public int AdminAutorizador { get; set; }
 }
+```
 
 ## 4. Arquitectura Avanzada: Manejo de Colas y Asincronía
 Como parte de la investigación y escalabilidad del sistema **LaboratorioDB**, se propone una arquitectura orientada a eventos utilizando tecnología de colas de mensajes (como IBM MQ) para integrarse con bases de datos relacionales de grado industrial (como IBM DB2). Esto evita cuellos de botella cuando el sistema recibe peticiones masivas.
