@@ -135,3 +135,13 @@ El siguiente diagrama de secuencia UML 2.0 demuestra el desacoplamiento temporal
 
 1. **Desacoplamiento (Fire-and-forget):** Se utiliza notación de mensaje asíncrono (flecha de punta abierta) para demostrar que la API encola el mensaje y responde al usuario inmediatamente (HTTP 202), sin esperar a la base de datos.
 2. **Servicio Background (Listener):** El servicio que ejecuta la transacción (INSERT) hacia la base de datos se mantiene inactivo hasta que la cola dispara una notificación o evento.
+
+### 4.3. Topología de Infraestructura (Modelo Híbrido: Nube a On-premise)
+Para garantizar tanto la accesibilidad fluida del sistema como la seguridad absoluta del inventario físico, el proyecto **LaboratorioDB** implementa una arquitectura de red híbrida:
+
+* **Capa Pública (Nube):** El portal web de interacción (Frontend) se despliega en un entorno Cloud. Esto permite que los usuarios puedan consultar el catálogo de componentes y solicitar préstamos o mantenimientos desde cualquier dispositivo móvil o red externa.
+* **Capa Privada y Segura (On-premise):** La base de datos relacional y el *Message Broker* (gestor de colas) residen físicamente en los servidores locales dentro de las instalaciones del laboratorio. 
+
+**Justificación del Flujo de Comunicación:** 
+Las peticiones viajan desde la nube hasta la red local (*Cloud to On-premise*) mediante la inyección asíncrona de mensajes. El *Listener* (nuestro servicio en C#), que opera de forma local, extrae los eventos de la cola y ejecuta las transacciones críticas. Este diseño aísla y protege la base de datos, evitando que esté expuesta directamente a internet, mitigando ataques directos y centralizando el procesamiento pesado en el hardware del laboratorio.
+
