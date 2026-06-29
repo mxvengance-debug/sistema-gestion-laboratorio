@@ -111,3 +111,23 @@ public class PrestamoModel
     public DateTime TimestampCreacion { get; set; }
     public int AdminAutorizador { get; set; }
 }
+
+## 4. Arquitectura Avanzada: Manejo de Colas y Asincronía
+Como parte de la investigación y escalabilidad del sistema **LaboratorioDB**, se propone una arquitectura orientada a eventos utilizando tecnología de colas de mensajes (como IBM MQ) para integrarse con bases de datos relacionales de grado industrial (como IBM DB2). Esto evita cuellos de botella cuando el sistema recibe peticiones masivas.
+
+### 4.1. Estructura de Datos en Memoria (Modelo FIFO)
+Para evitar el bloqueo de la base de datos, las solicitudes de préstamos no se insertan directamente, sino que pasan por un búfer intermedio.
+
+<img width="1480" height="473" alt="image" src="https://github.com/user-attachments/assets/908fd831-7377-4900-9ee4-0a0a7323b264" />
+
+* **Enqueue (Productor):** La API Backend inserta los mensajes en formato JSON en el extremo inicial (Tail) de la estructura.
+* **Dequeue (Consumidor):** Un servicio en segundo plano extrae los mensajes por el extremo final (Head) respetando estrictamente el orden de llegada (*First-In, First-Out*).
+
+### 4.2. Flujo Asíncrono de Eventos (Secuencia UML)
+El siguiente diagrama de secuencia UML 2.0 demuestra el desacoplamiento temporal de los procesos.
+
+<img width="1302" height="528" alt="image" src="https://github.com/user-attachments/assets/5c2601e8-6ee7-4958-80e4-cb95338be611" />
+
+
+1. **Desacoplamiento (Fire-and-forget):** Se utiliza notación de mensaje asíncrono (flecha de punta abierta) para demostrar que la API encola el mensaje y responde al usuario inmediatamente (HTTP 202), sin esperar a la base de datos.
+2. **Servicio Background (Listener):** El servicio que ejecuta la transacción (INSERT) hacia la base de datos se mantiene inactivo hasta que la cola dispara una notificación o evento.
