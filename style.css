@@ -1,0 +1,45 @@
+body{
+    margin:0;
+    font-family: Arial;
+    background:#f4f4f4;
+}
+
+.contenedor{
+    width:80%;
+    margin:auto;
+    text-align:center;
+    margin-top:50px;
+}
+
+h1{
+    color:#1e3a8a;
+}
+
+.correcto{
+    color:green;
+    font-size:20px;
+}
+
+.error{
+    color:red;
+    font-size:20px;
+}
+
+.menu{
+    margin-top:40px;
+}
+
+.menu a{
+    text-decoration:none;
+    background:#2563eb;
+    color:white;
+    padding:15px 25px;
+    margin:10px;
+    border-radius:10px;
+    display:inline-block;
+    transition:0.3s;
+}
+
+.menu a:hover{
+    background:#1d4ed8;
+}
