@@ -23,7 +23,7 @@ Para los estudiantes, la gestión eficiente del tiempo es fundamental; la pérdi
 
 ## 3. Base de Datos
 **Gestor:** Microsoft SQL Server
-* 📄 **[Clic aquí para ver el script DDL y DML (con Rollback) de LaboratorioDB](sistemadestionlab.sql)**
+* 📄 **[Clic aquí para ver](sistemadestionlab.sql)**
 
 ### 3.1. Reglas de Negocio y Máscaras de Datos
 Para garantizar la seguridad y la integridad visual en la capa de presentación (Frontend) antes de que los datos interactúen con el servidor, se aplican las siguientes reglas de formato:
