@@ -145,3 +145,34 @@ Para garantizar tanto la accesibilidad fluida del sistema como la seguridad abso
 **Justificación del Flujo de Comunicación:** 
 Las peticiones viajan desde la nube hasta la red local (*Cloud to On-premise*) mediante la inyección asíncrona de mensajes. El *Listener* (nuestro servicio en C#), que opera de forma local, extrae los eventos de la cola y ejecuta las transacciones críticas. Este diseño aísla y protege la base de datos, evitando que esté expuesta directamente a internet, mitigando ataques directos y centralizando el procesamiento pesado en el hardware del laboratorio.
 
+## 5. Documentación de la API (Endpoints RESTful)
+
+Para la intercomunicación entre la base de datos SQL Server y las interfaces de usuario, se desarrolló una API RESTful nativa en PHP. Esta capa abstrae la lógica de acceso a datos y expone la información estrictamente en formato `application/json` con codificación UTF-8.
+
+### 5.1. Arquitectura de Conexión
+La API utiliza un módulo centralizado (`conexion.php`) que maneja la autenticación hacia **LaboratorioDB** mediante los controladores de `sqlsrv`. En caso de interrupción con el motor de base de datos, la API está configurada para interceptar el fallo y devolver un código de estado HTTP 500 (Internal Server Error) empaquetado en un JSON seguro, evitando exponer la traza del error en pantalla.
+
+### 5.2. Catálogo de Endpoints (Lectura)
+Los siguientes servicios exponen los datos transaccionales y de catálogo. Se implementaron sentencias `INNER JOIN` a nivel de base de datos para resolver las llaves foráneas y entregar al cliente los nombres legibles en lugar de identificadores abstractos.
+
+| Endpoint | Método | Descripción |
+| :--- | :---: | :--- |
+| `/usuarios.php` | GET | Retorna el catálogo de usuarios. Por seguridad, excluye el hash de contraseñas. |
+| `/componentes.php` | GET | Expone el inventario actual, incluyendo categorías y existencias. |
+| `/prestamos.php` | GET | Lista el historial de préstamos, cruzando el `IdUsuario` para mostrar el nombre del solicitante. |
+| `/devoluciones.php` | GET | Retorna el registro de devoluciones con sus respectivas observaciones y el nombre del usuario vinculado al préstamo original. |
+| `/mantenimientos.php` | GET | Lista las bitácoras de reparación, cruzando el `IdComponente` para mostrar el nombre de la pieza afectada. |
+
+### 5.3. Ejemplo de Respuesta (Payload JSON)
+Al consumir cualquiera de los endpoints (por ejemplo, el catálogo de Préstamos), el cliente recibe un arreglo de objetos estructurado de la siguiente manera:
+
+```json
+[
+    {
+        "IdPrestamo": 1,
+        "Usuario": "Juan Pérez",
+        "FechaPrestamo": "2026-07-04",
+        "FechaLimite": "2026-07-10",
+        "Estado": "Activo"
+    }
+]
