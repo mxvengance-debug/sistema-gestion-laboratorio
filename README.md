@@ -20,6 +20,12 @@ Tras la evaluación, se determinó que el modelo ideal para este proyecto es Paa
 La elección de PaaS (Platform as a Service): Al utilizar una plataforma como servicio, el proveedor de la nube administra toda la infraestructura subyacente. Esto nos permite desplegar directamente nuestro código de las vistas en PHP y los binarios de la API en C# en un entorno listo para ejecutar. El modelo PaaS nos brinda elasticidad automática en caso de que múltiples estudiantes soliciten componentes al mismo tiempo, garantizando alta disponibilidad sin requerir mantenimiento del servidor por parte de nuestro equipo.
 El Frontend y la API operarán bajo un esquema PaaS en la nube pública, mientras que nuestra base de datos (LaboratorioDB) y el gestor de colas (IBM MQ) se mantendrán en un esquema On-premise seguro, consolidando la arquitectura híbrida planteada en el diseño de red.
 
+Diagramas
+
+<img width="905" height="603" alt="image" src="https://github.com/user-attachments/assets/db8af0f2-4faf-4c2c-ad2c-0af22f81049c" />
+<img width="921" height="267" alt="image" src="https://github.com/user-attachments/assets/693ea7ae-4766-4290-9567-8f3ebe096e63" />
+<img width="919" height="374" alt="image" src="https://github.com/user-attachments/assets/9cd2aef5-1e14-48d0-abac-b69c0ce91340" />
+<img width="391" height="813" alt="image" src="https://github.com/user-attachments/assets/a603ecf0-73bb-43bd-973a-b9a692666928" />
 
 
 ## 2. Arquitectura del Proyecto (Despliegue)
@@ -169,4 +175,17 @@ Los siguientes servicios exponen los datos transaccionales y de catálogo. Se im
 | `/prestamos.php` | GET | Lista el historial de préstamos, cruzando el `IdUsuario` para mostrar el nombre del solicitante. |
 | `/devoluciones.php` | GET | Retorna el registro de devoluciones con sus respectivas observaciones y el nombre del usuario vinculado al préstamo original. |
 | `/mantenimientos.php` | GET | Lista las bitácoras de reparación, cruzando el `IdComponente` para mostrar el nombre de la pieza afectada. |
+
+
+Manual de Usuario y Funcionamiento del Sistema (GUI)
+El Gestor de Laboratorio cuenta con una interfaz gráfica de usuario (GUI) limpia, minimalista y libre de distracciones, diseñada para que los alumnos y profesores puedan operar el sistema de manera intuitiva. A continuación, se documenta el flujo principal de funcionamiento mediante evidencias de la aplicación en ejecución.
+Autenticación y Control de Acceso
+El ciclo de uso comienza en el módulo de seguridad. El sistema presenta una pantalla de inicio de sesión donde el usuario debe ingresar sus credenciales institucionales (correo electrónico y contraseña)
+<img width="1125" height="599" alt="image" src="https://github.com/user-attachments/assets/d8249f8d-8a1e-447c-a9da-43ba5ec96305" />
+Una vez que la capa lógica valida las credenciales contra la base de datos, el sistema despliega una notificación de éxito ("Inicio de sesión correcto"), confirmando la identidad del usuario (por ejemplo, el Administrador) antes de redirigirlo al entorno de trabajo.  
+<img width="1125" height="596" alt="image" src="https://github.com/user-attachments/assets/824bdf34-c57c-4baf-b77b-649c3ba4f3bc" />
+Para el control de inventario, el módulo de Préstamos despliega una bitácora en tiempo real. Esta vista tabular permite a los encargados del laboratorio auditar rápidamente qué identificador de usuario solicitó material, la fecha de emisión del préstamo, la fecha límite de entrega y el estado actual de la transacción (Activo o Devuelto).
+<img width="1125" height="603" alt="image" src="https://github.com/user-attachments/assets/dbfa4711-d945-4cc5-84ce-cd708ce48bfc" />
+Esta es una vista de depuración (debug) para la fase de pruebas locales en el servidor; para el pase a producción, esa columna se oculta en el Frontend por políticas de seguridad
+<img width="1125" height="648" alt="image" src="https://github.com/user-attachments/assets/1dbc51f2-c237-44dc-98ff-0df952d6d6db" />
 
