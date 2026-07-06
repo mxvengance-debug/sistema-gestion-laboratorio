@@ -14,6 +14,13 @@ Para los estudiantes, la gestión eficiente del tiempo es fundamental; la pérdi
 
  Implementar un sistema digital para el préstamo de componentes no solo reduciría los tiempos de espera de los alumnos, sino que también dotaría a los encargados de una herramienta precisa para el control de inventario, permitiéndoles conocer en tiempo real las unidades disponibles, el material faltante y el equipo que se encuentra fuera de servicio.
 
+ ## 2.Modelos de Servicio Cloud
+Para el despliegue del ecosistema web del Gestor de Laboratorio, se analizó la viabilidad de los tres modelos principales de computación en la nube (IaaS, PaaS y SaaS). El objetivo fue encontrar el entorno más eficiente para alojar nuestra capa de presentación (Frontend en PHP) y nuestra capa lógica (API Backend en C#), manteniendo la conexión hacia nuestra infraestructura física local (On-premise).
+Tras la evaluación, se determinó que el modelo ideal para este proyecto es PaaS (Plataforma como Servicio):
+La elección de PaaS (Platform as a Service): Al utilizar una plataforma como servicio, el proveedor de la nube administra toda la infraestructura subyacente. Esto nos permite desplegar directamente nuestro código de las vistas en PHP y los binarios de la API en C# en un entorno listo para ejecutar. El modelo PaaS nos brinda elasticidad automática en caso de que múltiples estudiantes soliciten componentes al mismo tiempo, garantizando alta disponibilidad sin requerir mantenimiento del servidor por parte de nuestro equipo.
+El Frontend y la API operarán bajo un esquema PaaS en la nube pública, mientras que nuestra base de datos (LaboratorioDB) y el gestor de colas (IBM MQ) se mantendrán en un esquema On-premise seguro, consolidando la arquitectura híbrida planteada en el diseño de red.
+
+
 
 ## 2. Arquitectura del Proyecto (Despliegue)
 <img width="883" height="263" alt="image" src="https://github.com/user-attachments/assets/66520c77-ec03-4694-8e6b-3e2fee08f83e" />
@@ -163,16 +170,3 @@ Los siguientes servicios exponen los datos transaccionales y de catálogo. Se im
 | `/devoluciones.php` | GET | Retorna el registro de devoluciones con sus respectivas observaciones y el nombre del usuario vinculado al préstamo original. |
 | `/mantenimientos.php` | GET | Lista las bitácoras de reparación, cruzando el `IdComponente` para mostrar el nombre de la pieza afectada. |
 
-### 5.3. Ejemplo de Respuesta (Payload JSON)
-Al consumir cualquiera de los endpoints (por ejemplo, el catálogo de Préstamos), el cliente recibe un arreglo de objetos estructurado de la siguiente manera:
-
-```json
-[
-    {
-        "IdPrestamo": 1,
-        "Usuario": "Juan Pérez",
-        "FechaPrestamo": "2026-07-04",
-        "FechaLimite": "2026-07-10",
-        "Estado": "Activo"
-    }
-]
