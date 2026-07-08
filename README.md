@@ -26,6 +26,8 @@ Diagramas
 <img width="921" height="267" alt="image" src="https://github.com/user-attachments/assets/693ea7ae-4766-4290-9567-8f3ebe096e63" />
 <img width="919" height="374" alt="image" src="https://github.com/user-attachments/assets/9cd2aef5-1e14-48d0-abac-b69c0ce91340" />
 <img width="391" height="813" alt="image" src="https://github.com/user-attachments/assets/a603ecf0-73bb-43bd-973a-b9a692666928" />
+<img width="1293" height="814" alt="0e5dabbe-e011-462c-bd16-49e8bb9a7599" src="https://github.com/user-attachments/assets/453ba063-4bab-4c0b-bd62-324abf77387e" />
+
 
 
 ## 2. Arquitectura del Proyecto (Despliegue)
