@@ -171,15 +171,129 @@ Los siguientes servicios exponen los datos transaccionales y de catálogo. Se im
 | `/mantenimientos.php` | GET | Lista las bitácoras de reparación, cruzando el `IdComponente` para mostrar el nombre de la pieza afectada. |
 
 
-Manual de Usuario y Funcionamiento del Sistema (GUI)
-El Gestor de Laboratorio cuenta con una interfaz gráfica de usuario (GUI) limpia, minimalista y libre de distracciones, diseñada para que los alumnos y profesores puedan operar el sistema de manera intuitiva. A continuación, se documenta el flujo principal de funcionamiento mediante evidencias de la aplicación en ejecución.
-Autenticación y Control de Acceso
-El ciclo de uso comienza en el módulo de seguridad. El sistema presenta una pantalla de inicio de sesión donde el usuario debe ingresar sus credenciales institucionales (correo electrónico y contraseña)
-<img width="1125" height="599" alt="image" src="https://github.com/user-attachments/assets/d8249f8d-8a1e-447c-a9da-43ba5ec96305" />
-Una vez que la capa lógica valida las credenciales contra la base de datos, el sistema despliega una notificación de éxito ("Inicio de sesión correcto"), confirmando la identidad del usuario (por ejemplo, el Administrador) antes de redirigirlo al entorno de trabajo.  
-<img width="1125" height="596" alt="image" src="https://github.com/user-attachments/assets/824bdf34-c57c-4baf-b77b-649c3ba4f3bc" />
-Para el control de inventario, el módulo de Préstamos despliega una bitácora en tiempo real. Esta vista tabular permite a los encargados del laboratorio auditar rápidamente qué identificador de usuario solicitó material, la fecha de emisión del préstamo, la fecha límite de entrega y el estado actual de la transacción (Activo o Devuelto).
-<img width="1125" height="603" alt="image" src="https://github.com/user-attachments/assets/dbfa4711-d945-4cc5-84ce-cd708ce48bfc" />
-Esta es una vista de depuración (debug) para la fase de pruebas locales en el servidor; para el pase a producción, esa columna se oculta en el Frontend por políticas de seguridad
-<img width="1125" height="648" alt="image" src="https://github.com/user-attachments/assets/1dbc51f2-c237-44dc-98ff-0df952d6d6db" />
+## Manual de Usuario y Funcionamiento del Sistema (GUI)
+
+Este documento detalla el uso y navegación del Sistema de Gestión de Laboratorio (desarrollado para la ESIME Culhuacán). El sistema permite administrar usuarios, el inventario de componentes electrónicos, y llevar un control detallado de préstamos, devoluciones y mantenimientos.
+
+1. Acceso al Sistema (Inicio de Sesión)
+
+<img width="1600" height="842" alt="WhatsApp Image 2026-07-12 at 9 19 44 PM" src="https://github.com/user-attachments/assets/da1a92aa-8061-42f6-b6fa-c3328d629064" />
+
+
+Para ingresar a la plataforma, debes autenticarte en la pantalla de inicio:
+
+Correo electrónico: Ingresa tu dirección de correo registrada (por ejemplo, ejemplo@laboratorio.com).
+
+Contraseña: Introduce tu clave de acceso.
+
+Haz clic en el botón azul "Iniciar sesión".
+
+Nota: Si los datos son correctos, el sistema mostrará una pantalla de confirmación con el mensaje "Bienvenido [Tu Nombre]" y te redirigirá automáticamente al panel principal.
+
+<img width="1600" height="838" alt="WhatsApp Image 2026-07-12 at 9 20 02 PM" src="https://github.com/user-attachments/assets/55d1d12b-501d-4cdb-aa5b-d84ab236b2cc" />
+
+2. Panel Principal (Menú de Navegación)
+
+<img width="1600" height="764" alt="WhatsApp Image 2026-07-12 at 9 22 53 PM" src="https://github.com/user-attachments/assets/6e0bbaad-95b0-4aaa-b647-26e41dd733da" />
+
+Una vez dentro, el sistema confirmará la conexión a la base de datos (mostrando el mensaje "Conexión exitosa con SQL Server") y presentará el menú principal. Desde aquí, puedes acceder a los cinco módulos fundamentales del sistema haciendo clic en sus respectivos botones azules:
+
+Usuarios
+
+Componentes
+
+Préstamos
+
+Devoluciones
+
+Mantenimientos
+
+3. Módulos del Sistema
+Cada botón del panel principal te llevará a una tabla detallada con los registros correspondientes. En todas las vistas, encontrarás un enlace en la parte inferior izquierda que dice "← Volver al inicio" para regresar rápidamente al menú principal.
+
+3.1. Lista de Usuarios
+
+<img width="1600" height="782" alt="WhatsApp Image 2026-07-12 at 9 20 30 PM" src="https://github.com/user-attachments/assets/adce5dde-071e-45e1-8f17-b35a88ea9029" />
+
+Este módulo muestra el personal y los estudiantes registrados en la base de datos.
+
+Campos visibles:
+
+ID: Número de identificación único.
+
+Nombre: Nombre completo del usuario.
+
+Correo: Dirección de contacto.
+
+Password: Contraseña (se muestra encriptada por razones de seguridad).
+
+Rol: Nivel de acceso en el sistema (Administrador, Profesor, Estudiante, Técnico).
+
+3.2. Lista de Componentes
+
+<img width="1600" height="789" alt="WhatsApp Image 2026-07-12 at 9 21 51 PM" src="https://github.com/user-attachments/assets/5197825b-9add-4bf6-bbfb-fa798972b6db" />
+
+Aquí puedes consultar el inventario de piezas, herramientas y equipos disponibles en el laboratorio (como Arduinos, multímetros, resistencias, etc.).
+
+Campos visibles:
+
+ID: Identificador del componente.
+
+Nombre: Descripción del artículo (ej. Arduino Uno R3, Osciloscopio Digital).
+
+Categoría: Clasificación del artículo (Microcontrolador, Sensor, Equipo, Componente, etc.).
+
+Cantidad: Unidades existentes en el inventario.
+
+Estado: Disponibilidad actual (ej. Disponible).
+
+3.3. Lista de Préstamos
+
+<img width="1600" height="791" alt="WhatsApp Image 2026-07-12 at 9 20 17 PM" src="https://github.com/user-attachments/assets/26398f1a-bcde-4475-8fc2-b97cdb0c843f" />
+
+Módulo diseñado para auditar el historial de materiales solicitados por los usuarios.
+
+Campos visibles:
+
+ID: Número de folio del préstamo.
+
+ID Usuario: Número que vincula el préstamo con la persona que lo solicitó.
+
+Fecha Préstamo: Día en que se entregó el material.
+
+Fecha Límite: Día máximo para retornar el material.
+
+Estado: Estatus actual del trámite (ej. Activo o Devuelto).
+
+3.4. Lista de Devoluciones
+
+<img width="1600" height="788" alt="WhatsApp Image 2026-07-12 at 9 22 00 PM" src="https://github.com/user-attachments/assets/3dafda31-3809-4e97-b326-afa4e0dc62e4" />
+
+Control de las entregas de material que previamente estaba en calidad de préstamo.
+
+Campos visibles:
+
+ID Devolución: Folio único del retorno.
+
+ID Préstamo: Folio del préstamo original asociado.
+
+Fecha de Devolución: Día exacto en que se regresó el artículo.
+
+Observaciones: Notas sobre las condiciones en las que se entregó el material (ej. Entregados completos y en buen estado, Se realizó limpieza).
+
+3.5. Lista de Mantenimientos
+
+<img width="1600" height="785" alt="WhatsApp Image 2026-07-12 at 9 22 06 PM" src="https://github.com/user-attachments/assets/2dd61506-f33b-4f40-9485-e4e239574de7" />
+
+Registro del historial de reparaciones, calibraciones o revisiones del equipo del laboratorio.
+
+Campos visibles:
+
+ID: Identificador del registro de mantenimiento.
+
+ID Componente: Número de la pieza o equipo que recibió el servicio.
+
+Fecha: Día en que se realizó la intervención.
+
+Descripción: Detalle técnico del trabajo realizado (ej. Cambio de cable USB, Calibración del sensor, Revisión de voltaje).
 
