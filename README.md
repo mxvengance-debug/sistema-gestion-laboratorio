@@ -5,7 +5,7 @@
 **Integrantes del Equipo:**
 * Rojas Cervantes Octavio
 * Davila Maya Azarel Jahdai
-* Trujano Rmaos Arturo
+* Trujano Ramos Arturo
   
 
 ## Planteamiento del Problema
