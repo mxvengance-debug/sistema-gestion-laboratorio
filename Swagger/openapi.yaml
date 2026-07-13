@@ -1,0 +1,197 @@
+openapi: 3.0.3
+
+info:
+  title: API del Sistema de Laboratorio
+  description: API para consultar la información del sistema de gestión y préstamos.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost/LaboratorioWeb
+    description: Servidor local de XAMPP
+
+paths:
+
+  /api/usuarios.php:
+    get:
+      tags:
+        - Usuarios
+      summary: Obtener todos los usuarios
+      description: Devuelve la lista de usuarios registrados en LaboratorioDB.
+      responses:
+        "200":
+          description: Lista de usuarios obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Usuario"
+        "500":
+          description: Error de conexión o consulta en SQL Server
+
+  /api/componentes.php:
+    get:
+      tags:
+        - Componentes
+      summary: Obtener todos los componentes
+      description: Devuelve la lista de componentes registrados en LaboratorioDB.
+      responses:
+        "200":
+          description: Lista de componentes obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Componente"
+        "500":
+          description: Error de conexión o consulta en SQL Server
+
+  /api/prestamos.php:
+    get:
+      tags:
+        - Préstamos
+      summary: Obtener todos los préstamos
+      description: Devuelve la lista de préstamos registrados en LaboratorioDB.
+      responses:
+        "200":
+          description: Lista de préstamos obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Prestamo"
+        "500":
+          description: Error de conexión o consulta en SQL Server
+
+  /api/devoluciones.php:
+    get:
+      tags:
+        - Devoluciones
+      summary: Obtener todas las devoluciones
+      description: Devuelve la lista de devoluciones registradas en LaboratorioDB.
+      responses:
+        "200":
+          description: Lista de devoluciones obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Devolucion"
+        "500":
+          description: Error de conexión o consulta en SQL Server
+
+  /api/mantenimientos.php:
+    get:
+      tags:
+        - Mantenimientos
+      summary: Obtener todos los mantenimientos
+      description: Devuelve la lista de mantenimientos registrados en LaboratorioDB.
+      responses:
+        "200":
+          description: Lista de mantenimientos obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Mantenimiento"
+        "500":
+          description: Error de conexión o consulta en SQL Server
+
+components:
+
+  schemas:
+
+    Usuario:
+      type: object
+      properties:
+        IdUsuario:
+          type: integer
+          example: 1
+        Nombre:
+          type: string
+          example: Arturo Trujano
+        Correo:
+          type: string
+          format: email
+          example: arturo@laboratorio.com
+        Rol:
+          type: string
+          example: Administrador
+
+    Componente:
+      type: object
+      properties:
+        IdComponente:
+          type: integer
+          example: 1
+        Nombre:
+          type: string
+          example: Arduino Uno R3
+        Categoria:
+          type: string
+          example: Microcontrolador
+        CantidadDisponible:
+          type: integer
+          example: 10
+        Estado:
+          type: string
+          example: Disponible
+
+    Prestamo:
+      type: object
+      properties:
+        IdPrestamo:
+          type: integer
+          example: 1
+        Usuario:
+          type: string
+          example: Carlos Hernandez
+        FechaPrestamo:
+          type: string
+          format: date
+          example: "2026-06-26"
+        FechaLimite:
+          type: string
+          format: date
+          example: "2026-07-03"
+        Estado:
+          type: string
+          example: Activo
+
+    Devolucion:
+      type: object
+      properties:
+        IdDevolucion:
+          type: integer
+          example: 0
+        Usuario:
+          type: string
+          example: Carlos Hernandez
+        FechaDevolucion:
+          type: string
+          format: date
+          example: "2026-06-24"
+        Observaciones:
+          type: string
+          example: Componentes entregados completos y en buen estado
+
+    Mantenimiento:
+      type: object
+      properties:
+        IdMantenimiento:
+          type: integer
+          example: 0
+        Componente:
+          type: string
+          example: Arduino Uno R3
+        Fecha:
+          type: string
+          format: date
+          example: "2026-06-20"
+        Descripcion:
+          type: string
+          example: Cambio de cable USB y limpieza general
