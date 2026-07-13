@@ -7,7 +7,8 @@
 * Davila Maya Azarel Jahdai
 * Trujano Rmaos Arturo
   
----
+---<img width="1491" height="1055" alt="WhatsApp Image 2026-07-11 at 5 40 10 PM" src="https://github.com/user-attachments/assets/50c9b8e7-e8db-48af-9608-bdb076b597c6" />
+
 
 ## Planteamiento del Problema
 Para los estudiantes, la gestión eficiente del tiempo es fundamental; la pérdida de unos pocos minutos puede afectar significativamente el desarrollo y conclusión de una práctica. Aunque la digitalización ha optimizado procesos en áreas como bibliotecas y otros centros de investigación, la Escuela Superior de Ingeniería Mecánica y Eléctrica (ESIME) Unidad Culhuacán aún requiere modernizar la administración de sus laboratorios.
@@ -22,7 +23,7 @@ El Frontend y la API operarán bajo un esquema PaaS en la nube pública, mientra
 
 ## Diagramas
 
-<img width="905" height="603" alt="image" src="https://github.com/user-attachments/assets/db8af0f2-4faf-4c2c-ad2c-0af22f81049c" />
+<img width="1491" height="1055" alt="WhatsApp Image 2026-07-11 at 5 40 10 PM" src="https://github.com/user-attachments/assets/3b5de226-f423-4e2d-b25f-2af26bc259fa" />
 <img width="921" height="267" alt="image" src="https://github.com/user-attachments/assets/693ea7ae-4766-4290-9567-8f3ebe096e63" />
 <img width="919" height="374" alt="image" src="https://github.com/user-attachments/assets/9cd2aef5-1e14-48d0-abac-b69c0ce91340" />
 <img width="1024" height="1536" alt="WhatsApp Image 2026-07-08 at 1 52 25 PM" src="https://github.com/user-attachments/assets/95fded00-2dcc-4b04-a67d-128632ccd802" />
