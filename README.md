@@ -150,7 +150,9 @@ Para garantizar tanto la accesibilidad fluida del sistema como la seguridad abso
 **Justificación del Flujo de Comunicación:** 
 Las peticiones viajan desde la nube hasta la red local (*Cloud to On-premise*) mediante la inyección asíncrona de mensajes. El *Listener* (nuestro servicio en C#), que opera de forma local, extrae los eventos de la cola y ejecuta las transacciones críticas. Este diseño aísla y protege la base de datos, evitando que esté expuesta directamente a internet, mitigando ataques directos y centralizando el procesamiento pesado en el hardware del laboratorio.
 
-## 📚 Documentación de la API (Swagger / OpenAPI 3.0)
+## Documentación de la API (Swagger / OpenAPI 3.0)
+
+<img width="1600" height="847" alt="WhatsApp Image 2026-07-13 at 1 28 30 AM" src="https://github.com/user-attachments/assets/bf1587ad-cf98-4b5f-850d-8eb5b5af8536" />
 
 El backend de este proyecto expone una API RESTful nativa desarrollada en PHP para la consulta de información de **LaboratorioDB**. La documentación oficial, las rutas, modelos y códigos de estado están estandarizados mediante la especificación OpenAPI 3.0.3.
 
