@@ -129,7 +129,7 @@ Como parte de la investigación y escalabilidad del sistema **LaboratorioDB**, s
 ### Estructura de Datos en Memoria (Modelo FIFO)
 Para evitar el bloqueo de la base de datos, las solicitudes de préstamos no se insertan directamente, sino que pasan por un búfer intermedio.
 
-<img width="948" height="303" alt="Imagen1" src="https://github.com/user-attachments/assets/c933302b-7471-4205-86b6-4c2b6bbf1e27" />
+<img width="1024" height="297" alt="13597157-49d3-404f-b0a8-27448489861d" src="https://github.com/user-attachments/assets/7f709766-e97e-4202-b415-e85b058663dd" />
 
 
 * **Enqueue (Productor):** La API Backend inserta los mensajes en formato JSON en el extremo inicial (Tail) de la estructura.
