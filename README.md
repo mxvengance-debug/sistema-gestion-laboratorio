@@ -23,7 +23,7 @@ El Frontend y la API operarán bajo un esquema PaaS en la nube pública, mientra
 
 <img width="1491" height="1055" alt="WhatsApp Image 2026-07-11 at 5 40 10 PM" src="https://github.com/user-attachments/assets/3b5de226-f423-4e2d-b25f-2af26bc259fa" />
 <img width="1024" height="297" alt="13597157-49d3-404f-b0a8-27448489861d" src="https://github.com/user-attachments/assets/d8021fd7-1d2f-4e3a-a6f2-7efee5b217a9" />
-<img width="919" height="374" alt="image" src="https://github.com/user-attachments/assets/9cd2aef5-1e14-48d0-abac-b69c0ce91340" />
+<img width="1024" height="883" alt="image" src="https://github.com/user-attachments/assets/06766973-7663-4517-b27f-e7e20c3aae6e" />
 <img width="1024" height="1536" alt="WhatsApp Image 2026-07-08 at 1 52 25 PM" src="https://github.com/user-attachments/assets/95fded00-2dcc-4b04-a67d-128632ccd802" />
 <img width="1293" height="814" alt="0e5dabbe-e011-462c-bd16-49e8bb9a7599" src="https://github.com/user-attachments/assets/453ba063-4bab-4c0b-bd62-324abf77387e" />
 
@@ -138,7 +138,7 @@ Para evitar el bloqueo de la base de datos, las solicitudes de préstamos no se 
 ### Flujo Asíncrono de Eventos (Secuencia UML)
 El siguiente diagrama de secuencia UML 2.0 demuestra el desacoplamiento temporal de los procesos.
 
-<img width="833" height="338" alt="Imagen2" src="https://github.com/user-attachments/assets/dc3e6b9a-4e12-4b45-b68e-810bc95344cd" />
+<img width="1024" height="883" alt="image" src="https://github.com/user-attachments/assets/bf4473b8-9076-4a7e-b0c1-e4010439a4a1" />
 
 1. **Desacoplamiento (Fire-and-forget):** Se utiliza notación de mensaje asíncrono (flecha de punta abierta) para demostrar que la API encola el mensaje y responde al usuario inmediatamente (HTTP 202), sin esperar a la base de datos.
 2. **Servicio Background (Listener):** El servicio que ejecuta la transacción (INSERT) hacia la base de datos se mantiene inactivo hasta que la cola dispara una notificación o evento.
