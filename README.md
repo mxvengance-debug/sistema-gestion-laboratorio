@@ -150,27 +150,57 @@ Para garantizar tanto la accesibilidad fluida del sistema como la seguridad abso
 **Justificación del Flujo de Comunicación:** 
 Las peticiones viajan desde la nube hasta la red local (*Cloud to On-premise*) mediante la inyección asíncrona de mensajes. El *Listener* (nuestro servicio en C#), que opera de forma local, extrae los eventos de la cola y ejecuta las transacciones críticas. Este diseño aísla y protege la base de datos, evitando que esté expuesta directamente a internet, mitigando ataques directos y centralizando el procesamiento pesado en el hardware del laboratorio.
 
-## Documentación de la API (Swagger / OpenAPI 3.0)
-El backend del proyecto expone una API RESTful nativa desarrollada en PHP para la consulta de información de LaboratorioDB. La documentación oficial, las rutas, modelos y códigos de estado están estandarizados mediante la especificación OpenAPI 3.0.3.Servidor de Desarrollo (Local)Para ejecutar y probar los endpoints en tu entorno local (ej. mediante XAMPP en Windows 11), el servidor base está configurado en la siguiente URL:http://localhost/LaboratorioWebCatálogo de EndpointsMétodoEndpointDescripciónParámetrosRespuestasGET/api/usuarios.phpObtiene el catálogo de usuarios registrados.Ninguno200 OK (Array JSON)500 Internal ErrorGET/api/componentes.phpDevuelve el inventario de materiales y su estado.Ninguno200 OK (Array JSON)500 Internal ErrorGET/api/prestamos.phpLista el historial de préstamos vinculados a usuarios.Ninguno200 OK (Array JSON)500 Internal ErrorGET/api/devoluciones.phpLista devoluciones y observaciones del material.Ninguno200 OK (Array JSON)500 Internal ErrorGET/api/mantenimientos.phpMuestra la bitácora de componentes en revisión.Ninguno200 OK (Array JSON)500 Internal ErrorEstructura de Datos (Schemas)Todas las respuestas exitosas devuelven un arreglo de objetos en formato application/json. A continuación se muestra la estructura y los tipos de datos expuestos para los principales módulos de la aplicación:Objeto UsuarioJSON{
+## 📚 Documentación de la API (Swagger / OpenAPI 3.0)
+
+El backend de este proyecto expone una API RESTful nativa desarrollada en PHP para la consulta de información de **LaboratorioDB**. La documentación oficial, las rutas, modelos y códigos de estado están estandarizados mediante la especificación OpenAPI 3.0.3.
+
+### Servidor de Desarrollo (Local)
+Para ejecutar y probar los endpoints en tu entorno local (ej. mediante XAMPP en Windows 11), el servidor base está configurado en la siguiente URL:
+`http://localhost/LaboratorioWeb`
+
+### Catálogo de Endpoints
+
+| Método | Endpoint | Descripción | Parámetros | Respuestas |
+| :---: | :--- | :--- | :---: | :--- |
+| **GET** | `/api/usuarios.php` | Obtiene el catálogo de usuarios registrados. | Ninguno | `200 OK` (Array JSON)<br>`500 Internal Error` |
+| **GET** | `/api/componentes.php` | Devuelve el inventario de materiales y su estado. | Ninguno | `200 OK` (Array JSON)<br>`500 Internal Error` |
+| **GET** | `/api/prestamos.php` | Lista el historial de préstamos vinculados a usuarios. | Ninguno | `200 OK` (Array JSON)<br>`500 Internal Error` |
+| **GET** | `/api/devoluciones.php` | Lista devoluciones y observaciones del material. | Ninguno | `200 OK` (Array JSON)<br>`500 Internal Error` |
+| **GET** | `/api/mantenimientos.php`| Muestra la bitácora de componentes en revisión. | Ninguno | `200 OK` (Array JSON)<br>`500 Internal Error` |
+
+### Estructura de Datos (Schemas)
+
+Todas las respuestas exitosas devuelven un arreglo de objetos en formato `application/json`. A continuación se muestra la estructura y los tipos de datos expuestos para los principales módulos de la aplicación:
+
+**Objeto Usuario**
+```json
+{
   "IdUsuario": 1,
   "Nombre": "Arturo Trujano",
   "Correo": "arturo@laboratorio.com",
   "Rol": "Administrador"
 }
-Objeto Componente (Inventario)JSON{
+```
+Objeto Componente (Inventario)
+```json
+{
   "IdComponente": 1,
   "Nombre": "Arduino Uno R3",
   "Categoria": "Microcontrolador",
   "CantidadDisponible": 10,
   "Estado": "Disponible"
 }
-Objeto Préstamo (Transacción)JSON{
+```
+Objeto Préstamo (Transacción)
+```json
+{
   "IdPrestamo": 1,
   "Usuario": "Carlos Hernandez",
   "FechaPrestamo": "2026-06-26",
   "FechaLimite": "2026-07-03",
   "Estado": "Activo"
 }
+```
 
 ## Documentación de la API (Endpoints RESTful)
 
