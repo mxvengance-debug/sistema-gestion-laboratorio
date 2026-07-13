@@ -9,18 +9,18 @@
   
 ---
 
-## 1. Planteamiento del Problema
+## Planteamiento del Problema
 Para los estudiantes, la gestión eficiente del tiempo es fundamental; la pérdida de unos pocos minutos puede afectar significativamente el desarrollo y conclusión de una práctica. Aunque la digitalización ha optimizado procesos en áreas como bibliotecas y otros centros de investigación, la Escuela Superior de Ingeniería Mecánica y Eléctrica (ESIME) Unidad Culhuacán aún requiere modernizar la administración de sus laboratorios.
 
  Implementar un sistema digital para el préstamo de componentes no solo reduciría los tiempos de espera de los alumnos, sino que también dotaría a los encargados de una herramienta precisa para el control de inventario, permitiéndoles conocer en tiempo real las unidades disponibles, el material faltante y el equipo que se encuentra fuera de servicio.
 
- ## 2.Modelos de Servicio Cloud
+ ## Modelos de Servicio Cloud
 Para el despliegue del ecosistema web del Gestor de Laboratorio, se analizó la viabilidad de los tres modelos principales de computación en la nube (IaaS, PaaS y SaaS). El objetivo fue encontrar el entorno más eficiente para alojar nuestra capa de presentación (Frontend en PHP) y nuestra capa lógica (API Backend en C#), manteniendo la conexión hacia nuestra infraestructura física local (On-premise).
 Tras la evaluación, se determinó que el modelo ideal para este proyecto es PaaS (Plataforma como Servicio):
 La elección de PaaS (Platform as a Service): Al utilizar una plataforma como servicio, el proveedor de la nube administra toda la infraestructura subyacente. Esto nos permite desplegar directamente nuestro código de las vistas en PHP y los binarios de la API en C# en un entorno listo para ejecutar. El modelo PaaS nos brinda elasticidad automática en caso de que múltiples estudiantes soliciten componentes al mismo tiempo, garantizando alta disponibilidad sin requerir mantenimiento del servidor por parte de nuestro equipo.
 El Frontend y la API operarán bajo un esquema PaaS en la nube pública, mientras que nuestra base de datos (LaboratorioDB) y el gestor de colas (IBM MQ) se mantendrán en un esquema On-premise seguro, consolidando la arquitectura híbrida planteada en el diseño de red.
 
-Diagramas
+## Diagramas
 
 <img width="905" height="603" alt="image" src="https://github.com/user-attachments/assets/db8af0f2-4faf-4c2c-ad2c-0af22f81049c" />
 <img width="921" height="267" alt="image" src="https://github.com/user-attachments/assets/693ea7ae-4766-4290-9567-8f3ebe096e63" />
@@ -29,18 +29,11 @@ Diagramas
 <img width="1293" height="814" alt="0e5dabbe-e011-462c-bd16-49e8bb9a7599" src="https://github.com/user-attachments/assets/453ba063-4bab-4c0b-bd62-324abf77387e" />
 
 
-
-## 2. Arquitectura del Proyecto (Despliegue)
-<img width="883" height="263" alt="image" src="https://github.com/user-attachments/assets/66520c77-ec03-4694-8e6b-3e2fee08f83e" />
-
-
-
-
-## 3. Base de Datos
+## Base de Datos
 **Gestor:** Microsoft SQL Server
 * 📄 **[Clic aquí para ver](sistemadestionlab.sql)**
 
-### 3.1. Reglas de Negocio y Máscaras de Datos
+### 3Reglas de Negocio y Máscaras de Datos
 Para garantizar la seguridad y la integridad visual en la capa de presentación (Frontend) antes de que los datos interactúen con el servidor, se aplican las siguientes reglas de formato:
 
 | Tabla | Campo | Máscara / Regla de Formato | Validación en Capa de Negocio |
@@ -49,7 +42,7 @@ Para garantizar la seguridad y la integridad visual en la capa de presentación 
 | **Usuarios** | Correo | `*@alumno.ipn.mx` | Validación estricta de dominio. Solo se permite el registro con cuentas institucionales. |
 | **Componentes**| Nombre | `Capitalización` | Formateo automático: la primera letra de cada palabra se convierte a mayúscula (ej. *Arduino Uno*). |
 
-### 3.2. Diccionario de Datos y Mapeo Objeto-Relacional (ORM)
+### Diccionario de Datos y Mapeo Objeto-Relacional (ORM)
 A continuación se detalla la estructura física completa implementada en SQL Server y su equivalente lógico en las clases del código Backend en C#. Se han incorporado **Campos de Auditoría** para garantizar la trazabilidad de todos los movimientos dentro del laboratorio.
 
 **Tabla: Usuarios**
@@ -110,10 +103,10 @@ A continuación se detalla la estructura física completa implementada en SQL Se
 | *FechaCreacion* | DATETIME | DEFAULT GETDATE() | `TimestampAlta` | `DateTime` | **Auditoría:** Fecha en la que se levantó el reporte. |
 | *UsuarioRegistra*| INT | **FK** | `TecnicoResponsable`| `int` | **Auditoría:** ID del administrador que documentó la falla. |
 
-### 3.3. Implementación en la API (Modelo de Clase)
+### Implementación en la API (Modelo de Clase)
 Para demostrar la integración de estas tablas en nuestra arquitectura, el siguiente fragmento muestra cómo la base de datos se transforma en un objeto manipulable dentro del ecosistema de C# (Mapeo ORM):
 
-### 3.3. Implementación en la API (Modelo de Clase)
+### Implementación en la API (Modelo de Clase)
 Para demostrar la integración de estas tablas en nuestra arquitectura, el siguiente fragmento muestra cómo la base de datos se transforma en un objeto manipulable dentro del ecosistema de C# (Mapeo ORM):
 
 ```csharp
@@ -131,10 +124,10 @@ public class PrestamoModel
 }
 ```
 
-## 4. Arquitectura Avanzada: Manejo de Colas y Asincronía
+## Arquitectura Avanzada: Manejo de Colas y Asincronía
 Como parte de la investigación y escalabilidad del sistema **LaboratorioDB**, se propone una arquitectura orientada a eventos utilizando tecnología de colas de mensajes (como IBM MQ) para integrarse con bases de datos relacionales de grado industrial (como IBM DB2). Esto evita cuellos de botella cuando el sistema recibe peticiones masivas.
 
-### 4.1. Estructura de Datos en Memoria (Modelo FIFO)
+### Estructura de Datos en Memoria (Modelo FIFO)
 Para evitar el bloqueo de la base de datos, las solicitudes de préstamos no se insertan directamente, sino que pasan por un búfer intermedio.
 
 <img width="948" height="303" alt="Imagen1" src="https://github.com/user-attachments/assets/c933302b-7471-4205-86b6-4c2b6bbf1e27" />
@@ -143,7 +136,7 @@ Para evitar el bloqueo de la base de datos, las solicitudes de préstamos no se 
 * **Enqueue (Productor):** La API Backend inserta los mensajes en formato JSON en el extremo inicial (Tail) de la estructura.
 * **Dequeue (Consumidor):** Un servicio en segundo plano extrae los mensajes por el extremo final (Head) respetando estrictamente el orden de llegada (*First-In, First-Out*).
 
-### 4.2. Flujo Asíncrono de Eventos (Secuencia UML)
+### Flujo Asíncrono de Eventos (Secuencia UML)
 El siguiente diagrama de secuencia UML 2.0 demuestra el desacoplamiento temporal de los procesos.
 
 <img width="833" height="338" alt="Imagen2" src="https://github.com/user-attachments/assets/dc3e6b9a-4e12-4b45-b68e-810bc95344cd" />
@@ -151,7 +144,7 @@ El siguiente diagrama de secuencia UML 2.0 demuestra el desacoplamiento temporal
 1. **Desacoplamiento (Fire-and-forget):** Se utiliza notación de mensaje asíncrono (flecha de punta abierta) para demostrar que la API encola el mensaje y responde al usuario inmediatamente (HTTP 202), sin esperar a la base de datos.
 2. **Servicio Background (Listener):** El servicio que ejecuta la transacción (INSERT) hacia la base de datos se mantiene inactivo hasta que la cola dispara una notificación o evento.
 
-### 4.3. Topología de Infraestructura (Modelo Híbrido: Nube a On-premise)
+### Topología de Infraestructura (Modelo Híbrido: Nube a On-premise)
 Para garantizar tanto la accesibilidad fluida del sistema como la seguridad absoluta del inventario físico, el proyecto **LaboratorioDB** implementa una arquitectura de red híbrida:
 
 * **Capa Pública (Nube):** El portal web de interacción (Frontend) se despliega en un entorno Cloud. Esto permite que los usuarios puedan consultar el catálogo de componentes y solicitar préstamos o mantenimientos desde cualquier dispositivo móvil o red externa.
@@ -160,14 +153,14 @@ Para garantizar tanto la accesibilidad fluida del sistema como la seguridad abso
 **Justificación del Flujo de Comunicación:** 
 Las peticiones viajan desde la nube hasta la red local (*Cloud to On-premise*) mediante la inyección asíncrona de mensajes. El *Listener* (nuestro servicio en C#), que opera de forma local, extrae los eventos de la cola y ejecuta las transacciones críticas. Este diseño aísla y protege la base de datos, evitando que esté expuesta directamente a internet, mitigando ataques directos y centralizando el procesamiento pesado en el hardware del laboratorio.
 
-## 5. Documentación de la API (Endpoints RESTful)
+## Documentación de la API (Endpoints RESTful)
 
 Para la intercomunicación entre la base de datos SQL Server y las interfaces de usuario, se desarrolló una API RESTful nativa en PHP. Esta capa abstrae la lógica de acceso a datos y expone la información estrictamente en formato `application/json` con codificación UTF-8.
 
-### 5.1. Arquitectura de Conexión
+### Arquitectura de Conexión
 La API utiliza un módulo centralizado (`conexion.php`) que maneja la autenticación hacia **LaboratorioDB** mediante los controladores de `sqlsrv`. En caso de interrupción con el motor de base de datos, la API está configurada para interceptar el fallo y devolver un código de estado HTTP 500 (Internal Server Error) empaquetado en un JSON seguro, evitando exponer la traza del error en pantalla.
 
-### 5.2. Catálogo de Endpoints (Lectura)
+### Catálogo de Endpoints (Lectura)
 Los siguientes servicios exponen los datos transaccionales y de catálogo. Se implementaron sentencias `INNER JOIN` a nivel de base de datos para resolver las llaves foráneas y entregar al cliente los nombres legibles en lugar de identificadores abstractos.
 
 | Endpoint | Método | Descripción |
